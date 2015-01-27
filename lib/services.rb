@@ -3,6 +3,10 @@ require 'sinatra/soap'
 require_relative 'soap'
 
 class Service < Sinatra::Base
+  configure do
+    set :views, File.join(File.dirname(__FILE__), "views")
+  end
+
   def self.decendants
     ObjectSpace.each_object(Class) .select { |klass|
       klass < self
@@ -10,4 +14,4 @@ class Service < Sinatra::Base
   end
 end
 
-Dir["services/*.rb"].each { |f| require_relative f }
+Dir[File.join(File.dirname(__FILE__),"services/*.rb")].each { |f| require_relative f }

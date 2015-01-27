@@ -14,13 +14,11 @@ module Sinatra
       def action
         return orig_params[:action] unless orig_params[:action].nil?
         action = env['HTTP_SOAPACTION'].to_s.gsub('"', '').split('#').last
-        puts "Action: #{action}"
         orig_params[:action] = action.to_sym
       end
 
       def namespace
         namespace = env['HTTP_SOAPACTION'].to_s.gsub('"', '').split('#').first
-        puts "Namespace #{namespace}"
         namespace
       end
 

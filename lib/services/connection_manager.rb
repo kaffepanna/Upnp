@@ -10,7 +10,7 @@ class ConnectionManager < Service
   get '/' do
     content_type 'application/xml'
     puts "Reading ConnectionManager"
-    File.read("views/ConnectionManager1.xml")
+    File.read(File.join(settings.views, "ConnectionManager1.xml"))
   end
 
   soap :GetProtocolInfo, out: { GetProtocolInfoResponse: { Source: :string, Sink: :string }} do

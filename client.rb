@@ -4,7 +4,8 @@ require 'sinatra/base'
 require 'sinatra/soap'
 require 'thin'
 require 'nori'
-require_relative 'device'
+require_relative 'lib/device'
+require_relative 'lib/services'
 
 IP='0.0.0.0'
 
@@ -79,8 +80,6 @@ EM.run {
   us = EM.open_datagram_socket('0.0.0.0', 1900, Client, search_request)
 
   search_request.subscribe { |ip, port|
-    puts "Responding to #{ip} #{port}"
-    #rs = EM.open_datagram_socket('0.0.0.0', port)
     RESPONSES.each do |resp|
       us.send_datagram(resp.split("\n").join("\r\n"), ip, port)
     end
@@ -91,6 +90,7 @@ EM.run {
       run Device
     end
     Service.decendants.each do |service|
+      puts "Regestring #{service.to_s}"
       map "/#{service.to_s}" do
         run service
       end
