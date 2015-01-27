@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns="urn:schemas-upnp-org:device-1-0">
+  <specVersion>
+    <major>1</major>
+    <minor>0</minor>
+  </specVersion>
+  <device>
+    <deviceType>urn:schemas-upnp-org:device:MediaServer:1</deviceType>
+    <friendlyName>kaffe MediaServer</friendlyName>
+    <manufacturer>randomserver.se</manufacturer>
+    <manufacturerURL>http://randomserver.se/</manufacturerURL>
+    <modelDescription>Mini</modelDescription>
+    <modelName>Kaffepanna MediaServer</modelName>
+    <modelNumber>0.0.1</modelNumber>
+    <modelURL>http://randomserver.se</modelURL>
+    <serialNumber>681019810597111</serialNumber>
+    <UDN>uuid:f284fc28-9e48-11e4-89d3-123b93f75cba</UDN>
+    <presentationURL>/</presentationURL>
+    <serviceList>
+      <service>
+        <serviceType>urn:schemas-upnp-org:service:ConnectionManager:1</serviceType>
+        <serviceId>urn:upnp-org:serviceId:ConnectionManager</serviceId>
+        <controlURL>/ConnectionManager/ctl</controlURL>
+        <eventSubURL>/ConnectionManager/event</eventSubURL>
+        <SCPDURL>/ConnectionManager</SCPDURL>
+      </service>
+    </serviceList>
+  </device>
+</root>
