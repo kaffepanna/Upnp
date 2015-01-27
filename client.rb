@@ -6,7 +6,7 @@ require 'thin'
 require 'nori'
 require_relative 'device'
 
-IP='192.168.1.88'
+IP='0.0.0.0'
 
 ROOT_RESPONSE = <<-EOF
 HTTP/1.1 200 OK
@@ -82,13 +82,9 @@ EM.run {
     puts "Responding to #{ip} #{port}"
     #rs = EM.open_datagram_socket('0.0.0.0', port)
     RESPONSES.each do |resp|
-      puts resp
       us.send_datagram(resp.split("\n").join("\r\n"), ip, port)
     end
   }
-  EM::PeriodicTimer.new(15) do
-    #us.send_datagram NOTIFY, '239.255.255.250', 1900
-  end
 
   dispatch = Rack::Builder.app do
     map '/' do

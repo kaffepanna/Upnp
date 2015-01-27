@@ -1,14 +1,6 @@
 require 'sinatra/base'
-require 'sinatra/soap'
-require_relative 'soap'
+require_relative 'services'
 
-class Service < Sinatra::Base
-  def self.decendants
-    ObjectSpace.each_object(Class) .select { |klass|
-      klass < self
-    }
-  end
-end
 
 class Device < Sinatra::Base
   configure do
@@ -31,7 +23,7 @@ class Device < Sinatra::Base
     }
     locals[:model] = {
       name: 'randomserver media server',
-      description: 'Simple media serverver',
+      description: ' media serverver',
       number: '0.0.1',
       url: 'http://randomserver.se'
     }
@@ -43,26 +35,5 @@ class Device < Sinatra::Base
   end
 end
 
-class ConnectionManager < Service
-  configure do
-    set :threaded, false
-    set :endpoint, '/ctl'
-  end
-
-  register Sinatra::Soap
-
-  get '/' do
-    content_type 'application/xml'
-    puts "Reading ConnectionManager"
-    File.read("views/ConnectionManager1.xml")
-  end
-
-  soap :GetProtocolInfo, out: { GetProtocolInfoResponse: { Source: :string, Sink: :string }} do
-    puts "Got GetProtocolInfo #{params.inspect}"
-    { Source: "http-get:*:image/jpeg", Sink: ""}
-  end
-
-
-end
 
 
