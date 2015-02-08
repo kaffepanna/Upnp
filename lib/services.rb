@@ -1,9 +1,9 @@
 require 'sinatra/base'
-require 'sinatra/soap'
+require_relative 'upnp/upnp.rb'
 
 class Service < Sinatra::Base
   configure do
-    set :views, File.join(File.dirname(__FILE__), "views")
+    set :views, lambda { File.join(File.dirname(caller[0].split(':').first), "views") }
   end
 
   def self.decendants
@@ -13,4 +13,6 @@ class Service < Sinatra::Base
   end
 end
 
-Dir[File.join(File.dirname(__FILE__),"services/*.rb")].each { |f| require_relative f }
+Dir[File.join(File.dirname(__FILE__),"services/*/*.rb")].each { |f|
+  require_relative f 
+}

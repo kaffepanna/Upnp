@@ -1,5 +1,4 @@
 require 'builder'
-require_relative '../upnp/upnp.rb'
 require 'json'
 
 module BrowseHelper
@@ -120,22 +119,42 @@ class ContentDirectory < Service
 
   get %r{(/.+)$} do
     puts "Streaming #{params[:captures].first}"
-    puts "#{env}"
+    puts JSON.pretty_generate(request.env)
+    if request['Range'] != nil
+        byte_start,byte_stop = request['HTTP_RANGE'].match(/bytes=(\d+)-(\d*)/)[1..2].map(&:to_i)
+        status 206
+    else
+      byte_start, byte_stop = 0, 0
+    end
+
+    if byte_stop == 0
+      byte_stop = File.size(params[:captures].first)
+    end
+        
+    headers['Content-Type'] = 'video/x-matroska'
+    headers['Accept-Ranges'] = 'bytes'
+    headers['Conent-Range'] = "bytes #{byte_start}-#{byte_stop}/#{File.size(params[:captures].first)}"
+    headers['Content-Length'] = File.size(params[:captures].first).to_s
     stream(:keep_alive) do |out|
+      streaming = true
+      out.callback { streaming = false }
+      out.errback { streaming = false }
       file = File.open(params[:captures].first, 'r')
-      out.callback { file.close() }
+      file.pos = byte_start
       writer = lambda do
-        unless file.closed?
+        if streaming && !out.closed?
           buff = file.read(4*1024)
         else
           puts "Stop stream"
-          break
+          file.close
+          next
         end
 
         unless buff == nil
           body << buff
           EM::next_tick &writer
         else
+          puts "Stream done"
           file.close
         end
       end

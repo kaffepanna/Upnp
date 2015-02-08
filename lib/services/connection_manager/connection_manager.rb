@@ -1,5 +1,4 @@
 
-require_relative '../upnp/upnp.rb'
 class ConnectionManager < Service
   configure do
     set :threaded, false
