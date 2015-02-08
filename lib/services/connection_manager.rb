@@ -1,11 +1,12 @@
 
+require_relative '../upnp/upnp.rb'
 class ConnectionManager < Service
   configure do
     set :threaded, false
     set :endpoint, '/ctl'
   end
 
-  register Sinatra::Soap
+  register Sinatra::UpnpSoap
 
   get '/' do
     content_type 'application/xml'
@@ -13,8 +14,7 @@ class ConnectionManager < Service
     File.read(File.join(settings.views, "ConnectionManager1.xml"))
   end
 
-  soap :GetProtocolInfo, out: { GetProtocolInfoResponse: { Source: :string, Sink: :string }} do
-    puts "Got GetProtocolInfo #{params.inspect}"
+  upnp :GetProtocolInfo do
     { Source: "http-get:*:image/jpeg", Sink: ""}
   end
 end

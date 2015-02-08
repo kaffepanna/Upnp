@@ -1,6 +1,5 @@
 require 'sinatra/base'
 require 'sinatra/soap'
-require_relative 'soap'
 
 class Service < Sinatra::Base
   configure do

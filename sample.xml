@@ -1,0 +1,172 @@
+<DIDL-Lite xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:upnp="urn:schemas-upnp-org:metadata-1-0/upnp/"
+  xmlns="urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/"
+  xmlns:dlna="urn:schemas-dlna-org:metadata-1-0/">
+  <container id="0" parentID="-1" restricted="1" searchable="1" childCount="4">
+    <upnp:searchClass includeDerived="1">object.item.audioItem</upnp:searchClass>
+    <upnp:searchClass includeDerived="1">object.item.imageItem</upnp:searchClass>
+    <upnp:searchClass includeDerived="1">object.item.videoItem</upnp:searchClass>
+    <dc:title>root</dc:title>
+    <upnp:class>object.container.storageFolder</upnp:class>
+    <upnp:storageUsed>-1</upnp:storageUsed>
+  </container>
+</DIDL-Lite>
+
+<DIDL-Lite   xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns="urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/"
+  xmlns:upnp="urn:schemas-upnp-org:metadata-1-0/upnp/">
+  <container id="0" parentID="-1" restricted="1" searchable="1" childCount="11">
+    <dc:title>root</dc:title>
+    <upnp:class>object.container.storageFolder</upnp:class>
+    <upnp:storageUsed>-1</upnp:storageUsed>
+    <upnp:searchClass includeDerived="1">object.item.videoItem</upnp:searchClass>
+  </container>
+</DIDL-Lite>
+
+
+
+
+POST /ctl/ContentDir HTTP/1.0
+Host: 192.168.1.85
+User-Agent: Coherence PageGetter
+Content-Length: 444
+SOAPACTION: "urn:schemas-upnp-org:service:ContentDirectory:1#Browse"
+content-type: text/xml ;charset="utf-8"
+connection: close
+
+<?xml version="1.0" encoding="utf-8"?>
+<s:Envelope xmlns:ns0="urn:schemas-upnp-org:service:ContentDirectory:1"
+  s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body>
+    <ns0:Browse>
+      <ObjectID>0</ObjectID>
+      <BrowseFlag>BrowseDirectChildren</BrowseFlag>
+      <Filter>*</Filter>
+      <StartingIndex>0</StartingIndex>
+      <RequestedCount>0</RequestedCount>
+      <SortCriteria />
+    </ns0:Browse>
+  </s:Body>
+</s:Envelope>
+
+TTP/1.1 200 OK
+Content-Type: text/xml; charset="utf-8"
+Connection: close
+Content-Length: 1668
+Server: 3.2.0-61-generic DLNADOC/1.50 UPnP/1.0 MiniDLNA/1.1.2
+Date: Sat, 07 Feb 2015 08:12:08 GMT
+EXT:
+
+<?xml version="1.0" encoding="utf-8"?>
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"
+  s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <s:Body>
+    <u:BrowseResponse xmlns:u="urn:schemas-upnp-org:service:ContentDirectory:1">
+      <Result>
+        <DIDL-Lite xmlns="urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/"
+          xmlns:dc="http://purl.org/dc/elements/1.1/"
+          xmlns:dlna="urn:schemas-dlna-org:metadata-1-0/"
+          xmlns:upnp="urn:schemas-upnp-org:metadata-1-0/upnp/">
+          <container id="64" parentID="0" restricted="1" searchable="1" childCount="4">
+            <dc:title>Browse Folders</dc:title>
+            <upnp:class>object.container.storageFolder</upnp:class>
+            <upnp:storageUsed>-1</upnp:storageUsed>
+          </container>
+          <container id="1" parentID="0" restricted="1" searchable="1" childCount="6">
+            <dc:title>Music</dc:title>
+            <upnp:class>object.container.storageFolder</upnp:class>
+            <upnp:storageUsed>-1</upnp:storageUsed>
+          </container>
+          <container id="3" parentID="0" restricted="1" searchable="1" childCount="4">
+            <dc:title>Pictures</dc:title>
+            <upnp:class>object.container.storageFolder</upnp:class>
+            <upnp:storageUsed>-1</upnp:storageUsed>
+          </container>
+          <container id="2" parentID="0" restricted="1" searchable="1" childCount="2">
+            <dc:title>Video</dc:title>
+            <upnp:class>object.container.storageFolder</upnp:class>
+            <upnp:storageUsed>-1</upnp:storageUsed>
+          </container>
+        </DIDL-Lite>
+      </Result>
+      <NumberReturned>4</NumberReturned>
+      <TotalMatches>4</TotalMatches>
+      <UpdateID>0</UpdateID>
+    </u:BrowseResponse>
+  </s:Body>
+</s:Envelope>
+
+----------BROWSE SUBFOLDER -------------------
+
+POST /ctl/ContentDir HTTP/1.0
+Host: 192.168.1.85
+User-Agent: Coherence PageGetter
+Content-Length: 445
+SOAPACTION: "urn:schemas-upnp-org:service:ContentDirectory:1#Browse"
+content-type: text/xml ;charset="utf-8"
+connection: close
+
+<?xml version="1.0" encoding="utf-8"?>
+<s:Envelope xmlns:ns0="urn:schemas-upnp-org:service:ContentDirectory:1"
+  s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body>
+    <ns0:Browse>
+      <ObjectID>64</ObjectID>
+      <BrowseFlag>BrowseDirectChildren</BrowseFlag>
+      <Filter>*</Filter>
+      <StartingIndex>0</StartingIndex>
+      <RequestedCount>0</RequestedCount>
+      <SortCriteria />
+    </ns0:Browse>
+  </s:Body>
+</s:Envelope>
+
+HTTP/1.1 200 OK
+Content-Type: text/xml; charset="utf-8"
+Connection: close
+Content-Length: 1674
+Server: 3.2.0-61-generic DLNADOC/1.50 UPnP/1.0 MiniDLNA/1.1.2
+Date: Sat, 07 Feb 2015 08:35:10 GMT
+EXT:
+
+<?xml version="1.0" encoding="utf-8"?>
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"
+  s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <s:Body>
+    <u:BrowseResponse xmlns:u="urn:schemas-upnp-org:service:ContentDirectory:1">
+      <Result>
+        <DIDL-Lite xmlns:dc="http://purl.org/dc/elements/1.1/"
+          xmlns:upnp="urn:schemas-upnp-org:metadata-1-0/upnp/"
+          xmlns="urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/"
+          xmlns:dlna="urn:schemas-dlna-org:metadata-1-0/">
+          <container id="64$0" parentID="64" restricted="1" searchable="1" childCount="17">
+            <dc:title>Movies</dc:title>
+            <upnp:class>object.container.storageFolder</upnp:class>
+            <upnp:storageUsed>-1</upnp:storageUsed>
+          </container>
+          <container id="64$1" parentID="64" restricted="1" searchable="1" childCount="1">
+            <dc:title>Music</dc:title>
+            <upnp:class>object.container.storageFolder</upnp:class>
+            <upnp:storageUsed>-1</upnp:storageUsed>
+          </container>
+          <container id="64$2" parentID="64" restricted="1" searchable="1" childCount="4">
+            <dc:title>Pictures</dc:title>
+            <upnp:class>object.container.storageFolder</upnp:class>
+            <upnp:storageUsed>-1</upnp:storageUsed>
+          </container>
+          <container id="64$3" parentID="64" restricted="1" searchable="1" childCount="14">
+            <dc:title>TV</dc:title>
+            <upnp:class>object.container.storageFolder</upnp:class>
+            <upnp:storageUsed>-1</upnp:storageUsed>
+          </container>
+        </DIDL-Lite>
+      </Result>
+      <NumberReturned>4</NumberReturned>
+      <TotalMatches>4</TotalMatches>
+      <UpdateID>0</UpdateID>
+    </u:BrowseResponse>
+  </s:Body>
+<s/Envelope>
+
