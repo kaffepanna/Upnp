@@ -103,6 +103,7 @@ module BrowseHelper
   end
 end
 
+
 class ContentDirectory < Service
   configure do
     set :threaded, false
@@ -119,10 +120,9 @@ class ContentDirectory < Service
 
   get %r{(/.+)$} do
     puts "Streaming #{params[:captures].first}"
-    puts JSON.pretty_generate(request.env)
-    if request['Range'] != nil
-        byte_start,byte_stop = request['HTTP_RANGE'].match(/bytes=(\d+)-(\d*)/)[1..2].map(&:to_i)
-        status 206
+    #puts JSON.pretty_generate(env)
+    if request.env['HTTP_RANGE'] != nil
+        byte_start,byte_stop = request.env['HTTP_RANGE'].match(/bytes=(\d*)-(\d*)/)[1..2].map(&:to_i)
     else
       byte_start, byte_stop = 0, 0
     end
@@ -130,7 +130,12 @@ class ContentDirectory < Service
     if byte_stop == 0
       byte_stop = File.size(params[:captures].first)
     end
-        
+    if byte_start != 0
+      status 206
+    end
+    puts request.env['HTTP_RANGE'] 
+    puts "Streaming #{byte_start}-#{byte_stop}"
+
     headers['Content-Type'] = 'video/x-matroska'
     headers['Accept-Ranges'] = 'bytes'
     headers['Conent-Range'] = "bytes #{byte_start}-#{byte_stop}/#{File.size(params[:captures].first)}"
@@ -140,10 +145,10 @@ class ContentDirectory < Service
       out.callback { streaming = false }
       out.errback { streaming = false }
       file = File.open(params[:captures].first, 'r')
-      file.pos = byte_start
+      file.seek(byte_start)
       writer = lambda do
         if streaming && !out.closed?
-          buff = file.read(4*1024)
+          buff = file.read(2*1024)
         else
           puts "Stop stream"
           file.close
@@ -152,7 +157,7 @@ class ContentDirectory < Service
 
         unless buff == nil
           body << buff
-          EM::next_tick &writer
+          EventMachine.next_tick &writer
         else
           puts "Stream done"
           file.close
