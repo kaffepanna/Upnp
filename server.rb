@@ -1,13 +1,12 @@
 require 'eventmachine'
 require 'ipaddr'
 require 'sinatra/base'
-require 'sinatra/soap'
 require 'thin'
 require 'nori'
 require_relative 'lib/device'
 require_relative 'lib/services'
 
-IP='192.168.1.88'
+IP='0.0.0.0'
 
 ROOT_RESPONSE = <<-EOF
 HTTP/1.1 200 OK

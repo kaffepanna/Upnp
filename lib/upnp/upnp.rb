@@ -33,11 +33,11 @@ module Sinatra
 
         soap = nori.parse(input)[:Envelope][:Body][action]
         response = self.instance_exec(soap, &settings.upnp_actions[action])
-        
-        builder :response, locals: {namespace: namespace, action: action.to_s, params: response}, views: settings.upnp_views
 
+        data = builder :response, locals: {namespace: namespace, action: action.to_s, params: response}, views: settings.upnp_views
+        puts data
+        data
       end
-      
       Delegator.delegate :upnp
     end
   end
